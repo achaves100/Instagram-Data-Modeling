@@ -11,44 +11,53 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
+    parent_id = Column(Integer, ForeignKey("user.user_id"))
+    username = Column(String(250), nullable=False)
+    firstname = Column(String(250), nullable=False)
+    lastname = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
-    age = Column(Integer, nullable=False)
 
     def to_dict(self):
         return {}
 
 class Follower(Base):
     __tablename__ = 'follower'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
-    name = Column(String(250))
+    parent_id = Column(Integer, ForeignKey("user.user_id"))
+    user_from_id = Column(String(250))
+    user_to_id = Column(String(250))
+    
+    def to_dict(self):
+        return {}
+
+class Comment(Base):
+    __tablename__ = 'comment'
+    id = Column(Integer, primary_key=True)
+    parent_id = Column(Integer, ForeignKey("user.user_id"))
+    comment_text = Column(String(250), nullable=False)
+    author_id = Column(Integer)
+    post_id = Column(Integer)
 
     def to_dict(self):
         return {}
 
-class Follower(Base):
-    __tablename__ = 'follower'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
+class Post(Base):
+    __tablename__ = 'post'
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
-    name = Column(String(250))
+    parent_id = Column(Integer, ForeignKey("user.user_id"))
 
     def to_dict(self):
-        return {}
+        return {}   
 
-class Wall(Base):
-    __tablename__ = 'wall'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
+class Media(Base):
+    __tablename__ = 'media'
     id = Column(Integer, primary_key=True)
-    image = Column(String(250))
-    comment = Column(String(250))
+    parent_id = Column(Integer, ForeignKey("user.user_id"))
+    type = Column(String(250))
+    url = Column(String(250))
+    post_id = Column(Integer)
 
     def to_dict(self):
-        return {}
+        return {}  
 
 render_er(Base, 'diagram.png')

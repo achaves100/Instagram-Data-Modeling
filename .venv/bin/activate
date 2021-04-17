@@ -8,7 +8,7 @@ if [ "${BASH_SOURCE-}" = "$0" ]; then
 fi
 
 deactivate () {
-    unset -f pydoc >/dev/null 2>&1
+    unset -f pydoc >/dev/null 2>&1 || true
 
     # reset old environment variables
     # ! [ -z ${VAR+_} ] returns true if VAR is declared at all
@@ -46,7 +46,10 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/workspace/exercise-instagram-data-modeling/.venv"
+VIRTUAL_ENV='/workspace/Instagram-Data-Modeling-2/.venv'
+if ([ "$OSTYPE" = "cygwin" ] || [ "$OSTYPE" = "msys" ]) && $(command -v cygpath &> /dev/null) ; then
+    VIRTUAL_ENV=$(cygpath -u "$VIRTUAL_ENV")
+fi
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
@@ -61,8 +64,8 @@ fi
 
 if [ -z "${VIRTUAL_ENV_DISABLE_PROMPT-}" ] ; then
     _OLD_VIRTUAL_PS1="${PS1-}"
-    if [ "x(exercise-instagram-data-modeling) " != x ] ; then
-        PS1="(exercise-instagram-data-modeling) ${PS1-}"
+    if [ "x(Instagram-Data-Modeling-2) " != x ] ; then
+        PS1="(Instagram-Data-Modeling-2) ${PS1-}"
     else
         PS1="(`basename \"$VIRTUAL_ENV\"`) ${PS1-}"
     fi
